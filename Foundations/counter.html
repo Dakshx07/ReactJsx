@@ -1,0 +1,16 @@
+<!-- Hard way of making a counter using normal js -->
+
+<html>
+    <script>
+        function pressButoon(){
+            const currentValue=document.getElementById("btn").innerHTML;
+           
+            const CurrentCounter=currentValue.split(" ")[1];
+            const newCounter=parseInt(CurrentCounter) +1;
+            document.getElementById("btn").innerHTML="Counter " + newCounter;
+        }
+    </script>
+    <body style="background-color: slateblue;">
+        <button onclick="pressButoon()" id="btn">Counter 0</button>
+    </body>
+</html>
