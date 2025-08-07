@@ -1,43 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import { useState } from 'react'
-function App() {
 
+
+function App() {
+  const [count, setCount] =useState(0)
+  const [count2, setCount2] =useState(0)
+
+  function increase(){
+    setCount(count => count+1)
+  }
+  function decrease(){
+    setCount2(count => count-1)
+  }
   return (
     <>
       <div>
-        <Counter />
+       <Counter count={count} count2={count2}/>
+        <button onClick={increase}>Increase</button>
+        <button onClick={decrease}>Decrease</button>
        </div>
     </>
   )
 }
 
-function Counter(){
-  const [count,setCount]=useState(0)
-  console.log("Counter rendered");
-  
-  //useEffect is used to perform side effects in function components
-  // gaurd our setinterval from rendering infinitely
-  useEffect(function() {
-    setInterval(() => {
-      // setCount(count =>count + 1)
-      setCount(function(count){
-        return count + 1
-      })
-    },1000)
-    console.log("Mounted");
-    
-  },[])
-  
-function inc(){
-    setCount(count + 1)
-  }
 
-  return (
-    <div>
-      <h1>{count}</h1>
-      <button onClick={inc}>increase count</button>
-    </div>
-  )
+// mouting , re-redering, unmounting
+function Counter(props){
+
+ 
+    useEffect(function (){
+      console.log("Mounted");
+      return function(){
+        console.log("Unmounted");
+      }
+    },[])
+
+    useEffect(function (){
+      console.log("count has changed");
+      return function(){
+        console.log("cleanup inside count effect");
+        
+      }
+    },[props.count,props.count2])
+
+  return <div>
+    Counter {props.count} <br />
+    Counter2 {props.count2} 
+  </div>
 }
 
 export default App
