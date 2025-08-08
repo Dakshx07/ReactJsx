@@ -1,47 +1,52 @@
-import { useState } from 'react'
-
+import PostComponent from '/src/Post.jsx';
+import { useEffect, useState } from 'react';
 
 function App() {
-  return (
-    <>
-     <div style={{
-      fontFamily:'monospace',
-      background:"#b2bec3",
-      height:"100vh",
-      display:"block",
-      justifyContent:"center",
-      alignItems:"center",
-      padding:20,
+  const [count,setCount]=useState(0)
+
+  // function increaseCount(){
+  //   setCount(Math.random() > 0.5 ? count+(Math.floor(Math.random()*10)) : count+5)
+  // }
+
+  useEffect(function(){
+    setInterval(() => {
+      setCount(count+1)
+    }, 5000);
+  },[count])
+  return <div>
+    <div style={{
       display:"flex",
-      flexDirection:"row",
-      gap:20,
-      flexWrap:"wrap",
-     }}>
-      <ProfileCard />
+      marginLeft:25,
+      marginTop:30
+      }}>
 
       <div style={{
-        display:"flex",
-        flexDirection:"column",
-        gap:20,
-      }}>
-      <PostCompnent
-      title={"Daksh Hiran"}
-      subtitle={"1,000 followers"}
-      time={"2h ago"}
-      content="lorem ipsum dolor sit amet, consectetur adipiscing elit"
-       />
-      <PostCompnent
-      title={"rahul"}
-      subtitle={"Promoted"}
-      
-      content="lorem ipsum dolor sit amet, consectetur adipiscing elit"
-       />
-      
-       </div>
+      background:"lightblue",
+      borderRadius:50,
+     width:20,
+     height:20,
+     textAlign:'center',
+     position:'absolute'
+    }}>
+      {count}
     </div>
-    </>
-  )
+    </div>
+    <img style={{
+      cursor:"pointer"
+    }} src={"https://th.bing.com/th/id/OIP.0HsnCoTXD1PKhF58dU0lYgHaHa?w=191&h=191&c=7&r=0&o=5&dpr=2&pid=1.7"} width={50}/>
+
+  </div>
+   
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,6 +153,21 @@ function PostCompnent({title,subtitle, time, content}) {
         {content}
       </div>
     </div>
+}
+
+function ToggleMessage(){
+  let [notificationCount,setNotificationCount]=useState(0)
+
+  function increment(){
+   setNotificationCount(notificationCount+1)
+    
+  }
+  return <div>
+    <button onClick={increment}>
+      Increase Count
+    </button>
+    {notificationCount}
+  </div>
 }
 
 export default App
