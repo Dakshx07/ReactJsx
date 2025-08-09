@@ -1,17 +1,20 @@
 import PostComponent from '/src/Post.jsx';
 import { useEffect, useState } from 'react';
 
-function App() {
-  const [currentTab,setCurrentTab]=useState(1)
+function App1() {
+  const [currentTab,setCurrentTab]=useState(0)
   const [tabData,setTabData]=useState({})
+  const [loading,setLoading]=useState(true)
 
   useEffect(function(){
     //send backend req to bring the current data
     console.log("send req to backend to get data of current tab",currentTab);
+    setLoading(true)
     fetch("https://jsonplaceholder.typicode.com/todos/"+currentTab)
     .then(async res => {
       const json=await res.json()
       setTabData(json)
+      setLoading(false)
     })
   },[currentTab])
   return <div> 
@@ -27,17 +30,42 @@ function App() {
     <button onClick={function(){
       setCurrentTab(4)
     }}style={{color : currentTab == 4 ? "red" : "black"}}>Todo #4</button>
-
-    {tabData.title}
+  <br />
+    {loading ? "Loading ..." :tabData.title}
+   
   </div>
    
 }
+function App2(){
+  const [showTimer, setShowTimer]=useState(true)
 
+  useEffect(() => {
+    setInterval(() => {
+      setShowTimer(currValue => !currValue)
+    },5000)
+  },[])
 
+  return <div>
+    {showTimer && <App />}
+  </div>
+}
+function App(){
+  const [seconds,setSeconds]=useState(0)
 
+  useEffect(function(){
 
+    let inetrval=setInterval(function(){
+      console.log("from inside clock ");
+      setSeconds(s => s+1)
+  },1000)
 
-
+  return () => clearInterval(inetrval)
+  
+  },[])
+  return <div>
+    {seconds} seconds elapsed
+  </div>
+}
 
 
 
@@ -164,4 +192,4 @@ function App() {
 //   </div>
 // }
 
-export default App
+export default App2
