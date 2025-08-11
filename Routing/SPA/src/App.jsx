@@ -1,28 +1,52 @@
 
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { useRef } from 'react'
+import { BrowserRouter, Routes, Route, Link,useNavigate,Outlet } from 'react-router-dom'
 function App() {
- 
-  return (
-    <>
-      <div>
-        <BrowserRouter>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',margin:10}}>
-           <Link style={{textDecoration:"none",color:"slateblue"}} to="/">ALLEN</Link> 
+  const inputRef=useRef()
+  function focusOnInput(){
+    // document.getElementById('name').focus() 
+    inputRef.current.focus()
+  }
+  return <div>
+    <h1>Sign UP</h1>
+    <input ref={inputRef}  type="text"  /> 
+    <input type="text"  />
+    <button onClick={focusOnInput}>Submitt</button>
+  </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+function Layout(){
+  return <div style={{height:'100vh',backgroundColor:'#134E5E'}}>
+    <Header />  
+    <div style={{height:"90vh",backgroundColor:'#0B3037'}}>
+      <Outlet />
+      </div>
+    footer
+  </div>
+}
+
+function Header(){
+  return <div>
+     <Link style={{textDecoration:"none",color:"slateblue"}} to="/">ALLEN</Link> 
          <Link style={{textDecoration:"none",color:"slateblue"}}to="/neet/online-coaching-class-11">CLASS11</Link> 
          <Link  style={{textDecoration:"none",color:"slateblue"}}to="/neet/online-coaching-class-12">CLASS12</Link>
 
-        </div>
-        <Routes>
-
-          <Route path="/neet/online-coaching-class-11" element={<Class11Program />} />
-          <Route path="/neet/online-coaching-class-12" element={<Class12Program />} />
-          <Route path="/" element={<Landing />} />
-        </Routes>
-        </BrowserRouter>
-      </div>
-
-    </>
-  )
+  </div>
+}
+function ErrorPage(){
+  return <div>
+    Sorry page Not found
+  </div>
 }
 function Landing(){
   return <div style={{backgroundColor:'green',padding:10,margin:10,borderRadius:20}}>
@@ -35,8 +59,14 @@ function Class11Program(){
     </div>
 }
 function Class12Program(){
+  let navigate=useNavigate()
+
+  function redirectUser(){
+    navigate('/')
+  }
   return <div style={{backgroundColor:'blue',padding:10,margin:10,borderRadius:20}}>
     Class 12 Program
+    <button onClick={redirectUser}>Go back to the landing page</button>
     </div>
 }
 
