@@ -1,18 +1,29 @@
-
-import { useRef } from 'react'
-import { BrowserRouter, Routes, Route, Link,useNavigate,Outlet } from 'react-router-dom'
+import React, { useRef, useState } from 'react'
+// a clock with a start and stop button
 function App() {
-  const inputRef=useRef()
-  function focusOnInput(){
-    // document.getElementById('name').focus() 
-    inputRef.current.focus()
+  const [count, setCount] = useState(0)
+  // const [value,setValue]=useState(0)
+  const time=useRef(0)
+  function startClock() {
+    let timer=setInterval(function(){
+      setCount(count => count+1)
+      
+    },1000)
+     time.current=timer
   }
+
+  function stopClock(){
+    console.log(time.current);
+    
+    clearInterval(time.current)
+  }
+  
   return <div>
-    <h1>Sign UP</h1>
-    <input ref={inputRef}  type="text"  /> 
-    <input type="text"  />
-    <button onClick={focusOnInput}>Submitt</button>
-  </div>
+    {count}
+    <br />
+    <button onClick={startClock}>Start</button>
+    <button onClick={stopClock}>Stop</button>
+  </div> 
 }
 
 
