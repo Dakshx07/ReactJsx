@@ -1,46 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
+import { usefetch } from './hooks/useFetch'
 
 //custom hook
-function useCounter(){
-  const [count,setCount]=useState(0)
-  function IncreaseCount(){
-    setCount(count => count+1)
-  }
 
-  return {
-    count,
-    IncreaseCount
-  }
-  // useEffect(function(){
-  //   const interval=setInterval(function(){
-  //     setCount(count => count+1)
-  //   },1000)
-
-  //   return () => clearInterval(interval)
-  // },[])
-}
 
 function App() {
-  // const [count,setCount]=useState(0)
-  // useEffect(function(){
-  //   const interval=setInterval(function(){
-  //     setCount(count => count+1)
-  //   },1000)
+  const [currentPost,setCurrentPost]=useState(1);
+  const {finalData,loading}=usefetch(`https://jsonplaceholder.typicode.com/todos/${currentPost}`,10);
 
-  //   return () => clearInterval(interval)
-  // },[])
-
-return <div>
-  <Counter/>
-  <Counter/>
-</div>
-}
-
-function Counter(){
-   const {count,IncreaseCount}=useCounter()
+  if(loading){
+    return <div>Loading...</div>
+  }
   return <div>
-     <button onClick={IncreaseCount}>Increase {count}</button>
+    <button onClick={() => setCurrentPost(1)}>1</button>
+    <button onClick={() => setCurrentPost(2)}>2</button>
+    <button onClick={() => setCurrentPost(3)}>3</button>
+    {JSON.stringify(finalData)}
   </div>
 }
+
+
 
 export default App
