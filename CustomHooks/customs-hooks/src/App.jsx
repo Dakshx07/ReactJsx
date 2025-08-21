@@ -1,22 +1,52 @@
-import React, { use, useEffect, useState } from 'react'
+import React, { use, useEffect, useRef, useState } from 'react'
 import { usefetch } from './hooks/useFetch'
+import { usePrev } from './hooks/usePrev';
 
 //custom hook
+// function useDebounce(originalFn) {
+//   const currentClock=useRef()
 
+//   const fn = () => {
+//     clearTimeout(currentClock.current)
+//     currentClock.current=setTimeout(originalFn,200)
+//   }
+
+//   return fn;
+// }
+
+const useDebounce = (value, delay) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};
 
 function App() {
-  const [currentPost,setCurrentPost]=useState(1);
-  const {finalData,loading}=usefetch(`https://jsonplaceholder.typicode.com/todos/${currentPost}`,10);
-
-  if(loading){
-    return <div>Loading...</div>
+  const [input,setInput]=useState("")
+  const debounceValue=useDebounce(input,200)
+  function change(e){
+    setInput(e.target.value)
   }
-  return <div>
-    <button onClick={() => setCurrentPost(1)}>1</button>
-    <button onClick={() => setCurrentPost(2)}>2</button>
-    <button onClick={() => setCurrentPost(3)}>3</button>
-    {JSON.stringify(finalData)}
-  </div>
+
+  useEffect(() => {
+    console.log("expensive operation");
+    
+  },[debounceValue])
+
+  
+  
+  return <>
+    <input type="text" onChange={change}/>
+  </>
 }
 
 
