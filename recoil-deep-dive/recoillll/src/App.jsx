@@ -1,38 +1,40 @@
-import React from 'react';
-import './App.css';
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil';
-import { network, jobs, messaging, notifications, totalNotificationsselector } from './atom';
-import { useRecoilState } from 'recoil';
+
+
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { notifications, totalNotificationSelector } from './atom'
 
 function App() {
-  return (
-    <RecoilRoot>
-      <Main />
-    </RecoilRoot>
-  );
+  return <RecoilRoot>
+    <MainApp />
+  </RecoilRoot>
 }
 
-function Main() {
-  const networkCount = useRecoilValue(network);
-  const messagingCount = useRecoilValue(messaging);
-  const jobsCount = useRecoilValue(jobs);
-  const notificationsCount = useRecoilValue(notifications);
-  const totalNotifications = useRecoilValue(totalNotificationsselector);
+function MainApp() {
+  const [networkCount, setNetworkCount] = useRecoilState(notifications)
+  const totalNotificationCount = useRecoilValue(totalNotificationSelector);
+
+  useEffect(() => {
+    // fetch
+    axios.get("https://sum-server.100xdevs.com/notifications")
+      .then(res => {
+        setNetworkCount(res.data)
+      })
+  }, [])
 
   return (
-    <div>
+    <>
       <button>Home</button>
+      
+      <button>My network ({networkCount.network >= 100 ? "99+" : networkCount.network})</button>
+      <button>Jobs {networkCount.jobs}</button>
+      <button>Messaging ({networkCount.messaging})</button>
+      <button>Notifications ({networkCount.notifications})</button>
 
-      <button>My Network ({networkCount >= 100 ? '99+' : networkCount})</button>
-      <button>Jobs ({jobsCount})</button>
-      <button>Messages ({messagingCount})</button>
-      <button>Notifications ({notificationsCount})</button>
-
-      <button>Me ({totalNotifications})</button>
-    </div>
-  );
+      <button>Me ({totalNotificationCount})</button>
+    </>
+  )
 }
 
-
-
-export default App;
+export default App
