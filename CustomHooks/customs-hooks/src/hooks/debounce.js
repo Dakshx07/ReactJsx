@@ -2,7 +2,7 @@ const searchBackend = () => {
     console.log('Request sent to backend');
 };
 
-let timeoutId;
+Remove the `console.log` statement from the `searchBackend` function before deploying to production.
 
 const debounceBackend = () => {
     clearTimeout(timeoutId);
