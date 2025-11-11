@@ -1,16 +1,15 @@
-let currentClock;
-function searchBackend(){
-    console.log("request send to backend");
-    
-}
+const searchBackend = () => {
+    console.log('Request sent to backend');
+};
 
-function debounceBackend(){
-    clearTimeout(currentClock);
-    currentClock=setTimeout(searchBackend,30)
-}
+Remove the `console.log` statement from the `searchBackend` function before deploying to production.
 
-debounceBackend()
-debounceBackend()
-debounceBackend()
-debounceBackend()
-debounceBackend()
+const debounceBackend = () => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(searchBackend, 30);
+};
+
+// Simulate multiple calls to debounceBackend
+for (let i = 0; i < 5; i++) {
+    debounceBackend();
+}
